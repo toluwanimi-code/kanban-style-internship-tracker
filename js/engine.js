@@ -34,3 +34,21 @@ export function undo(state) {
   // Re-render the UI (later)
   // render(state);
 }
+export function redo(state) {
+  // Nothing to redo
+  if (state.redoStack.length === 0) {
+    return;
+  }
+
+  // Get the most recently undone action
+  const action = state.redoStack.pop();
+
+  // Re-apply the action
+  applyAction(state, action, "do");
+
+  // Put it back in the undo history
+  state.undoStack.push(action);
+
+  // Re-render the UI (later)
+  // render(state);
+}
