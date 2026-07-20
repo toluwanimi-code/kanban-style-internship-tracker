@@ -61,3 +61,5 @@ commands.MOVE_CARD.undo(state, action);
 console.log("=== After MOVE_CARD.undo() ===");
 console.log(state.board.columns);
 console.log(state.board.cardsById.card2);
+
+
