@@ -9,4 +9,9 @@ export function applyAction(state, action, method) {
 
   command[method](state, action);
 }
-
+export function dispatch(state, action) {
+  applyAction(state, action, "do");
+  state.undoStack.push(action);
+  state.redoStack = [];
+ 
+}
