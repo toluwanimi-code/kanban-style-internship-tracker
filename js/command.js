@@ -80,4 +80,29 @@ export const commands = {
     Object.assign(card, action.before);
   }
 },
+DELETE_CARD: {
+  do(state, action) {
+    const { card } = action;
+
+    // Find the card in its column
+    const column = state.board.columns[card.stage];
+    const cardIndex = column.indexOf(card.id);
+
+    // Remove the card's id from the column
+    column.splice(cardIndex, 1);
+
+    // Remove the card object
+    delete state.board.cardsById[card.id];
+  },
+
+  undo(state, action) {
+    const { card, index } = action;
+
+    // Restore the card object
+    state.board.cardsById[card.id] = card;
+
+    // Restore the card's id to its original position
+    state.board.columns[card.stage].splice(index, 0, card.id);
+  }
+},
 };
