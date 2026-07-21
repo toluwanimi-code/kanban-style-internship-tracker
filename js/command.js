@@ -40,5 +40,31 @@ export const commands = {
      
       state.board.cardsById[cardId].stage = from.stage;
     }
+  },
+
+  ADD_CARD: {
+    do(state, action) {
+      const { card, index } = action;
+
+      // Add the card to cardsById
+      state.board.cardsById[card.id] = card;
+
+      // Insert the card's id into the correct column
+      state.board.columns[card.stage].splice(index, 0, card.id);
+    },
+
+    undo(state, action) {
+      const { card } = action;
+
+      // Find the card in its column
+      const column = state.board.columns[card.stage];
+      const cardIndex = column.indexOf(card.id);
+
+      // Remove the card's id from the column
+      column.splice(cardIndex, 1);
+
+      // Remove the card object
+      delete state.board.cardsById[card.id];
+    }
   }
 };
