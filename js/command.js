@@ -66,5 +66,18 @@ export const commands = {
       // Remove the card object
       delete state.board.cardsById[card.id];
     }
+  },
+  EDIT_CARD: {
+  do(state, action) {
+    const card = state.board.cardsById[action.cardId];
+
+    Object.assign(card, action.after);
+  },
+
+  undo(state, action) {
+    const card = state.board.cardsById[action.cardId];
+
+    Object.assign(card, action.before);
   }
+},
 };
