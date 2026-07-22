@@ -1,3 +1,4 @@
+import { dragstart, dragover, createDropHandler } from "./drag.js";
 const stages = [
   "wishlist",
   "applied",
@@ -29,7 +30,15 @@ export function render(state) {
     // Column heading
     const heading = document.createElement("h2");
     heading.textContent = stageTitles[stage];
+
+    // Cards container
+    const cardsContainer = document.createElement("div");
+    cardsContainer.className = "cards";
+    cardsContainer.addEventListener("dragover", dragover);
+    cardsContainer.addEventListener("drop", createDropHandler(state));
+
     column.appendChild(heading);
+    column.appendChild(cardsContainer);
 
     // Create each card
     for (const cardId of state.board.columns[stage]) {
@@ -39,7 +48,7 @@ export function render(state) {
       cardElement.className = "card";
       cardElement.dataset.cardId = card.id;
       cardElement.draggable = true;
-
+cardElement.addEventListener("dragstart", dragstart);
       const heading3 = document.createElement("h3");
       heading3.textContent = card.company;
 
@@ -49,9 +58,10 @@ export function render(state) {
       cardElement.appendChild(heading3);
       cardElement.appendChild(paragraph);
 
-      column.appendChild(cardElement);
+      cardsContainer.appendChild(cardElement);
     }
 
     board.appendChild(column);
   }
 }
+
