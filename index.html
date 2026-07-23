@@ -6,11 +6,61 @@
   <link rel="stylesheet" href="main.css">
 </head>
 <body>
+  <form id="add-card-form">
+  <div>
+    <label for="company">Company</label>
+    <input
+      type="text"
+      id="company"
+      name="company"
+      required
+    >
+  </div>
+
+  <div>
+    <label for="role">Role</label>
+    <input
+      type="text"
+      id="role"
+      name="role"
+      required
+    >
+  </div>
+
+  <div>
+    <label for="notes">Notes</label>
+    <textarea
+      id="notes"
+      name="notes"
+      rows="3"
+    ></textarea>
+  </div>
+
+  <div>
+    <label for="stage">Stage</label>
+    <select
+      id="stage"
+      name="stage"
+    >
+      <option value="wishlist">Wishlist</option>
+      <option value="applied">Applied</option>
+      <option value="interviewing">Interviewing</option>
+      <option value="offer">Offer</option>
+      <option value="rejected">Rejected</option>
+    </select>
+  </div>
+
+  <button type="submit">Add Card</button>
+</form>
+
+
+
+<div id="board"></div>
   <div id="controls">
   <button id="undo-btn">Undo</button>
   <button id="redo-btn">Redo</button>
 </div>
-  <div id="board"></div>
+  
 
   <script type="module" src="js/main.js"></script>
 </body>
