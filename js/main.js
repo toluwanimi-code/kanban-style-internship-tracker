@@ -1,5 +1,6 @@
 import { createState } from "./state.js";
 import { render } from "./render.js";
+import { undo, redo } from "./engine.js";
 
 const state = createState();
 const now = new Date().toISOString();
@@ -39,3 +40,13 @@ state.board.columns.applied = ["card2"];
 state.board.columns.interviewing = ["card3"];
 
 render(state);
+
+document.getElementById("undo-btn").addEventListener("click", () => {
+  undo(state);
+  render(state);
+});
+
+document.getElementById("redo-btn").addEventListener("click", () => {
+  redo(state);
+  render(state);
+});
