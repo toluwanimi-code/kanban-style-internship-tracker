@@ -53,7 +53,44 @@
   <button type="submit">Add Card</button>
 </form>
 
+<form id="edit-card-form" style="display: none;">
+  <input
+    type="hidden"
+    id="edit-card-id"
+    name="cardId"
+  >
 
+  <div>
+    <label for="edit-company">Company</label>
+    <input
+      type="text"
+      id="edit-company"
+      name="company"
+      required
+    >
+  </div>
+
+  <div>
+    <label for="edit-role">Role</label>
+    <input
+      type="text"
+      id="edit-role"
+      name="role"
+      required
+    >
+  </div>
+
+  <div>
+    <label for="edit-notes">Notes</label>
+    <textarea
+      id="edit-notes"
+      name="notes"
+      rows="3"
+    ></textarea>
+  </div>
+
+  <button type="submit">Save Changes</button>
+</form>
 
 <div id="board"></div>
   <div id="controls">

@@ -1,4 +1,5 @@
 import { dragstart, dragover, createDropHandler } from "./drag.js";
+
 const stages = [
   "wishlist",
   "applied",
@@ -15,32 +16,31 @@ const stageTitles = {
   rejected: "Rejected"
 };
 
-export function render(state) {
-  const board = document.getElementById("board");
+export function render(state, handlers = {}) {
+  const { openEditForm } = handlers;
 
-  // Clear the previous UI
+  const board = document.getElementById("board");
   board.innerHTML = "";
 
   for (const stage of stages) {
-    // Create the column
     const column = document.createElement("div");
     column.className = "column";
     column.dataset.stage = stage;
 
-    // Column heading
     const heading = document.createElement("h2");
     heading.textContent = stageTitles[stage];
 
-    // Cards container
     const cardsContainer = document.createElement("div");
     cardsContainer.className = "cards";
     cardsContainer.addEventListener("dragover", dragover);
-    cardsContainer.addEventListener("drop", createDropHandler(state));
+    cardsContainer.addEventListener(
+      "drop",
+      createDropHandler(state, handlers)
+    );
 
     column.appendChild(heading);
     column.appendChild(cardsContainer);
 
-    // Create each card
     for (const cardId of state.board.columns[stage]) {
       const card = state.board.cardsById[cardId];
 
@@ -48,7 +48,8 @@ export function render(state) {
       cardElement.className = "card";
       cardElement.dataset.cardId = card.id;
       cardElement.draggable = true;
-cardElement.addEventListener("dragstart", dragstart);
+      cardElement.addEventListener("dragstart", dragstart);
+
       const heading3 = document.createElement("h3");
       heading3.textContent = card.company;
 
@@ -58,10 +59,18 @@ cardElement.addEventListener("dragstart", dragstart);
       cardElement.appendChild(heading3);
       cardElement.appendChild(paragraph);
 
+      const editButton = document.createElement("button");
+      editButton.textContent = "Edit";
+
+      editButton.addEventListener("click", () => {
+        openEditForm(card);
+      });
+
+      cardElement.appendChild(editButton);
+
       cardsContainer.appendChild(cardElement);
     }
 
     board.appendChild(column);
   }
 }
-

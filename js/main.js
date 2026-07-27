@@ -5,6 +5,21 @@ import { dispatch, undo, redo } from "./engine.js";
 const state = createState();
 const now = new Date().toISOString();
 
+function openEditForm(card) {
+  const form = document.getElementById("edit-card-form");
+
+  document.getElementById("edit-card-id").value = card.id;
+  document.getElementById("edit-company").value = card.company;
+  document.getElementById("edit-role").value = card.role;
+  document.getElementById("edit-notes").value = card.notes;
+
+  form.style.display = "block";
+}
+
+const handlers = {
+  openEditForm
+};
+
 state.board.cardsById = {
   card1: {
     id: "card1",
@@ -39,16 +54,16 @@ state.board.columns.wishlist = ["card1"];
 state.board.columns.applied = ["card2"];
 state.board.columns.interviewing = ["card3"];
 
-render(state);
+render(state, handlers);
 
 document.getElementById("undo-btn").addEventListener("click", () => {
   undo(state);
-  render(state);
+  render(state, handlers);
 });
 
 document.getElementById("redo-btn").addEventListener("click", () => {
   redo(state);
-  render(state);
+  render(state, handlers);
 });
 
 const form = document.getElementById("add-card-form");
@@ -80,6 +95,42 @@ form.addEventListener("submit", (event) => {
   };
 
   dispatch(state, action);
-  render(state);
+  render(state, handlers);
   form.reset();
+});
+
+const editForm = document.getElementById("edit-card-form");
+
+editForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const formData = new FormData(editForm);
+
+  const cardId = formData.get("cardId");
+  const company = formData.get("company");
+  const role = formData.get("role");
+  const notes = formData.get("notes");
+
+  const originalCard = state.board.cardsById[cardId];
+
+  const action = {
+    type: "EDIT_CARD",
+    cardId,
+    before: {
+      company: originalCard.company,
+      role: originalCard.role,
+      notes: originalCard.notes
+    },
+    after: {
+      company,
+      role,
+      notes
+    }
+  };
+
+  dispatch(state, action);
+  render(state, handlers);
+
+  editForm.reset();
+  editForm.style.display = "none";
 });
