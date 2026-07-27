@@ -17,7 +17,7 @@ const stageTitles = {
 };
 
 export function render(state, handlers = {}) {
-  const { openEditForm } = handlers;
+  const { openEditForm, deleteCard } = handlers;
 
   const board = document.getElementById("board");
   board.innerHTML = "";
@@ -41,7 +41,7 @@ export function render(state, handlers = {}) {
     column.appendChild(heading);
     column.appendChild(cardsContainer);
 
-    for (const cardId of state.board.columns[stage]) {
+    for (const [index, cardId] of state.board.columns[stage].entries()) {
       const card = state.board.cardsById[cardId];
 
       const cardElement = document.createElement("div");
@@ -61,12 +61,17 @@ export function render(state, handlers = {}) {
 
       const editButton = document.createElement("button");
       editButton.textContent = "Edit";
-
       editButton.addEventListener("click", () => {
         openEditForm(card);
       });
-
       cardElement.appendChild(editButton);
+
+      const deleteButton = document.createElement("button");
+      deleteButton.textContent = "Delete";
+      deleteButton.addEventListener("click", () => {
+        deleteCard(card, index);
+      });
+      cardElement.appendChild(deleteButton);
 
       cardsContainer.appendChild(cardElement);
     }

@@ -15,9 +15,20 @@ function openEditForm(card) {
 
   form.style.display = "block";
 }
+function deleteCard(card, index) {
+  const action = {
+    type: "DELETE_CARD",
+    card,
+    index
+  };
+
+  dispatch(state, action);
+  render(state, handlers);
+}
 
 const handlers = {
-  openEditForm
+  openEditForm,
+  deleteCard
 };
 
 state.board.cardsById = {
