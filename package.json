@@ -1,0 +1,29 @@
+{
+  "name": "internship-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toluwanimi-code/kanban-style-internship-tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/toluwanimi-code/kanban-style-internship-tracker/issues"
+  },
+  "homepage": "https://github.com/toluwanimi-code/kanban-style-internship-tracker#readme",
+  "devDependencies": {
+    "vite": "^8.1.5"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.111.0"
+  }
+}
